@@ -206,6 +206,19 @@ const sendMessage = async (session, receiver, message) => {
     }
 }
 
+const sendMedia = async (session, receiver, message) => {
+    try {
+        await whatsapp.delay(1000)
+        const qr = await qrCodes.toDataURL(message)
+        const dataSplit = qr.split(",")
+        const media = Buffer.from(dataSplit[1],'base64')
+
+        return session.sendMessage(receiver,{image:media})
+    } catch {
+        return Promise.reject(null)
+    }
+}
+
 const formatPhone = (phone) => {
     if (phone.endsWith('@s.whatsapp.net')) {
         return phone
@@ -268,6 +281,7 @@ module.exports = {
     getChatList,
     isExists,
     sendMessage,
+    sendMedia,
     formatPhone,
     formatGroup,
     cleanup,

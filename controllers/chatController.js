@@ -25,6 +25,25 @@ const send = async (req, res) => {
     }
 }
 
+const sendImage = async (req, res) => {
+    const session = whatsapp.getSession(res.locals.sessionId)
+    const receiver = whatsapp.formatPhone(req.body.receiver)  
+
+    try {
+        const exists = await whatsapp.isExists(session, receiver)
+
+        if (!exists) {
+            return result(res, 400, false, 'The receiver number is not exists.')
+        }  
+        
+        await whatsapp.sendMedia(session, receiver)
+
+        result(res, 200, true, 'The message has been successfully sent.')        
+    } catch {
+        result(res, 500, false, 'Failed to send the message.')
+    }
+}
+
 const sendBulk = async (req, res) => {
     const session = whatsapp.getSession(res.locals.sessionId)
     const errors = []
@@ -68,4 +87,4 @@ const sendBulk = async (req, res) => {
     )
 }
 
-module.exports = { getList, send, sendBulk }
+module.exports = { getList, send, sendBulk, sendImage }

@@ -21,6 +21,16 @@ router.post(
     chat.send
 )
 
+router.post(
+    '/send-image',
+    query('id').notEmpty(),
+    body('receiver').notEmpty(),
+    body('message').notEmpty(),
+    request,
+    session,
+    chat.sendImage
+)
+
 // router.post('/send-bulk', query('id').notEmpty(), request, session, chat.sendBulk)
 
 module.exports = router
