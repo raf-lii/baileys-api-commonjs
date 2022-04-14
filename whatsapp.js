@@ -58,7 +58,7 @@ const createSession = async (sessionId, isLegacy = false, res = null) => {
     /**
      * @type {import('@adiwajshing/baileys').AnyWASocket}
      */
-    const wa = isLegacy ? whatsapp.makeWALegacySocket(waConfig) : whatsapp.makeWASocket.default(waConfig)
+    const wa = isLegacy ? whatsapp.makeWALegacySocket(waConfig) : whatsapp.default(waConfig)
 
     if (!isLegacy) {
         store.readFromFile(sessionsDir(`${sessionId}_store`))
